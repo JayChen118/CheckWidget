@@ -25,7 +25,7 @@ public class CheckAppWidgetProvider extends AppWidgetProvider {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
 
-        DateFormat format = new SimpleDateFormat("hh:mm:ss", Locale.CHINA);
+        DateFormat format = new SimpleDateFormat("hh:mm", Locale.CHINA);
         Log.d(TAG, "onUpdate: ");
         final int N = appWidgetIds.length;
         for (int i = 0; i < N; i++) {
