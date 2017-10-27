@@ -27,10 +27,7 @@ public class CheckAppWidgetProvider extends AppWidgetProvider {
 
         DateFormat format = new SimpleDateFormat("hh:mm", Locale.CHINA);
         Log.d(TAG, "onUpdate: ");
-        final int N = appWidgetIds.length;
-        for (int i = 0; i < N; i++) {
-            int appWidgetId = appWidgetIds[i];
-
+        for (int appWidgetId : appWidgetIds) {
             Intent intent = new Intent(context, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
@@ -42,5 +39,17 @@ public class CheckAppWidgetProvider extends AppWidgetProvider {
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
+    }
+
+    private void setAlarm(Context context) {
+
+/*        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        long triggerAtTime = System.currentTimeMillis() + 60000;
+        Intent intent = new Intent(context, NotificationReceiver.class);
+        intent.setAction(NOTIFICATION_ACTION_PARENT);
+        intent.putExtra(NOTIFICATION_CONTENT_KEY, notificationContent);
+        intent.putExtra(NOTIFICATION_ACTION, NOTIFICATION_ACTION_PARENT);
+        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        manager.set(AlarmManager.RTC_WAKEUP, triggerAtTime, pi);*/
     }
 }
