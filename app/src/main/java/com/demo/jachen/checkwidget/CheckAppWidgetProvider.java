@@ -1,5 +1,6 @@
 package com.demo.jachen.checkwidget;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -39,17 +40,23 @@ public class CheckAppWidgetProvider extends AppWidgetProvider {
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
+
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent serviceIntent = new Intent(context, MyIntentService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(context, 0, serviceIntent, 0);
+        if (manager != null) {
+            manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60000, pendingIntent);
+        }
+
+//        context.startService(new Intent(context, MyIntentService.class));
     }
 
     private void setAlarm(Context context) {
 
-/*        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         long triggerAtTime = System.currentTimeMillis() + 60000;
-        Intent intent = new Intent(context, NotificationReceiver.class);
-        intent.setAction(NOTIFICATION_ACTION_PARENT);
-        intent.putExtra(NOTIFICATION_CONTENT_KEY, notificationContent);
-        intent.putExtra(NOTIFICATION_ACTION, NOTIFICATION_ACTION_PARENT);
+        Intent intent = new Intent(context, MyIntentService.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        manager.set(AlarmManager.RTC_WAKEUP, triggerAtTime, pi);*/
+        manager.set(AlarmManager.RTC_WAKEUP, triggerAtTime, pi);
     }
 }

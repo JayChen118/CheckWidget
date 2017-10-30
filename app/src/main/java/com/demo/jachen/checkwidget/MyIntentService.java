@@ -1,8 +1,19 @@
 package com.demo.jachen.checkwidget;
 
+import android.app.AlarmManager;
 import android.app.IntentService;
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+import android.widget.RemoteViews;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -12,6 +23,7 @@ import android.content.Intent;
  * helper methods.
  */
 public class MyIntentService extends IntentService {
+    private static final String TAG = "MyIntentService";
     // TODO: Rename actions, choose action names that describe tasks that this
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
     private static final String ACTION_FOO = "com.demo.jachen.checkwidget.action.FOO";
@@ -57,6 +69,17 @@ public class MyIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.d(TAG, "onHandleIntent: ");
+
+        ComponentName componentName = new ComponentName(this, CheckAppWidgetProvider.class);
+
+        RemoteViews views = new RemoteViews(getPackageName(), R.layout.check_widget);
+
+        DateFormat format = new SimpleDateFormat("hh:mm", Locale.CHINA);
+        views.setTextViewText(R.id.button, format.format(new Date(System.currentTimeMillis())));
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        appWidgetManager.updateAppWidget(componentName, views);
+
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_FOO.equals(action)) {
