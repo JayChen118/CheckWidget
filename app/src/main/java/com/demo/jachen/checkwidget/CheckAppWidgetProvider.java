@@ -11,7 +11,11 @@ import android.widget.RemoteViews;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -35,7 +39,6 @@ public class CheckAppWidgetProvider extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.check_widget);
             views.setOnClickPendingIntent(R.id.button, pendingIntent);
 
-
             views.setTextViewText(R.id.button, format.format(new Date(System.currentTimeMillis())));
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -49,7 +52,22 @@ public class CheckAppWidgetProvider extends AppWidgetProvider {
         }
 
 //        context.startService(new Intent(context, MyIntentService.class));
+
+        NotificationLauncher.fire(context);
     }
+
+    private List<Event> mockEvents() {
+        List<Event> events = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Event event = new Event();
+            event.setName("Event" + i);
+            event.setStart(System.currentTimeMillis());
+            event.setInterval(1000 * 60 * 10);
+            events.add(event);
+        }
+        return events;
+    }
+
 
     private void setAlarm(Context context) {
 
