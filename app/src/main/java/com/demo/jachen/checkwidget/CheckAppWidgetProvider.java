@@ -34,11 +34,12 @@ public class CheckAppWidgetProvider extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.check_widget);
             views.setOnClickPendingIntent(R.id.button, pendingIntent);
 
-
             views.setTextViewText(R.id.button, format.format(new Date(System.currentTimeMillis())));
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
+
+        NotificationLauncher.fire(context);
     }
 
     private void setAlarm(Context context) {
