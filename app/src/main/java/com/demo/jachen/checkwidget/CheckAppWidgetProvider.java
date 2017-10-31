@@ -33,7 +33,7 @@ public class CheckAppWidgetProvider extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.check_widget);
             views.setOnClickPendingIntent(R.id.button, pendingIntent);
 
-            views.setTextViewText(R.id.button, TimeUtil.getTime());
+            views.setTextViewText(R.id.button, String.format("Update:%s", TimeUtil.getTime()));
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
@@ -43,6 +43,7 @@ public class CheckAppWidgetProvider extends AppWidgetProvider {
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, serviceIntent, 0);
         if (manager != null) {
             Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, 1);
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
             manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 60000, pendingIntent);

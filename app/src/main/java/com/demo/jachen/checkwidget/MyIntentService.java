@@ -68,7 +68,7 @@ public class MyIntentService extends IntentService {
 
         RemoteViews views = new RemoteViews(getPackageName(), R.layout.check_widget);
 
-        views.setTextViewText(R.id.button, TimeUtil.getTime());
+        views.setTextViewText(R.id.button, String.format("Alarm:%s", TimeUtil.getTime()));
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         appWidgetManager.updateAppWidget(componentName, views);
 
