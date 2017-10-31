@@ -72,6 +72,8 @@ public class MyIntentService extends IntentService {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         appWidgetManager.updateAppWidget(componentName, views);
 
+        NotificationLauncher.fire(this);
+
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_FOO.equals(action)) {
