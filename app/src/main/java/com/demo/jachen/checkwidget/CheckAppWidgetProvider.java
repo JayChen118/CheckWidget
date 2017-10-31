@@ -12,9 +12,8 @@ import android.widget.RemoteViews;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,7 +29,7 @@ public class CheckAppWidgetProvider extends AppWidgetProvider {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
 
-        DateFormat format = new SimpleDateFormat("hh:mm", Locale.CHINA);
+        DateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
         Log.d(TAG, "onUpdate: ");
         for (int appWidgetId : appWidgetIds) {
             Intent intent = new Intent(context, MainActivity.class);
@@ -48,7 +47,10 @@ public class CheckAppWidgetProvider extends AppWidgetProvider {
         Intent serviceIntent = new Intent(context, MyIntentService.class);
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, serviceIntent, 0);
         if (manager != null) {
-            manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60000, pendingIntent);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 60000, pendingIntent);
         }
 
 //        context.startService(new Intent(context, MyIntentService.class));
@@ -75,6 +77,8 @@ public class CheckAppWidgetProvider extends AppWidgetProvider {
         long triggerAtTime = System.currentTimeMillis() + 60000;
         Intent intent = new Intent(context, MyIntentService.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        manager.set(AlarmManager.RTC_WAKEUP, triggerAtTime, pi);
+        if (manager != null) {
+            manager.set(AlarmManager.RTC_WAKEUP, triggerAtTime, pi);
+        }
     }
 }

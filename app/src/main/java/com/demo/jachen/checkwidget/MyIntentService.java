@@ -1,8 +1,6 @@
 package com.demo.jachen.checkwidget;
 
-import android.app.AlarmManager;
 import android.app.IntentService;
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -75,7 +73,7 @@ public class MyIntentService extends IntentService {
 
         RemoteViews views = new RemoteViews(getPackageName(), R.layout.check_widget);
 
-        DateFormat format = new SimpleDateFormat("hh:mm", Locale.CHINA);
+        DateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
         views.setTextViewText(R.id.button, format.format(new Date(System.currentTimeMillis())));
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         appWidgetManager.updateAppWidget(componentName, views);
