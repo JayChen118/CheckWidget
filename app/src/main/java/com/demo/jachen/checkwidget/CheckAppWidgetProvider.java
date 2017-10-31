@@ -9,13 +9,9 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by jachen on 10/18/2017.
@@ -29,7 +25,6 @@ public class CheckAppWidgetProvider extends AppWidgetProvider {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
 
-        DateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
         Log.d(TAG, "onUpdate: ");
         for (int appWidgetId : appWidgetIds) {
             Intent intent = new Intent(context, MainActivity.class);
@@ -38,7 +33,7 @@ public class CheckAppWidgetProvider extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.check_widget);
             views.setOnClickPendingIntent(R.id.button, pendingIntent);
 
-            views.setTextViewText(R.id.button, format.format(new Date(System.currentTimeMillis())));
+            views.setTextViewText(R.id.button, TimeUtil.getTime());
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }

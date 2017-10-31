@@ -15,7 +15,7 @@ public class NotificationLauncher {
     public static void fire(Context context) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "jay")
                 .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Check!")
-                .setContentText("It's time.").setAutoCancel(true);
+                .setContentText(String.format("It's %s.", TimeUtil.getTime())).setAutoCancel(true);
         Intent resultIntent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0);
 

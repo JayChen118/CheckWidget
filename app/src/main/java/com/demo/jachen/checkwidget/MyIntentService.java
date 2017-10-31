@@ -8,11 +8,6 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
@@ -73,8 +68,7 @@ public class MyIntentService extends IntentService {
 
         RemoteViews views = new RemoteViews(getPackageName(), R.layout.check_widget);
 
-        DateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
-        views.setTextViewText(R.id.button, format.format(new Date(System.currentTimeMillis())));
+        views.setTextViewText(R.id.button, TimeUtil.getTime());
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         appWidgetManager.updateAppWidget(componentName, views);
 
