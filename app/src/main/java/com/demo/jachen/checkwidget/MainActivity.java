@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -36,5 +37,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        TextView textView = findViewById(R.id.records);
+        textView.setText(SharedPreferencesUtil.readRecord(this));
     }
 }

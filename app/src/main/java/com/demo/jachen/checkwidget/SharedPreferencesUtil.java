@@ -20,7 +20,7 @@ public class SharedPreferencesUtil {
         return context.getSharedPreferences("check", Context.MODE_PRIVATE);
     }
 
-    public static String readRecord(Context context){
+    public static String readRecord(Context context) {
         return getSharedPreferences(context).getString(RECORD, "");
     }
 }
