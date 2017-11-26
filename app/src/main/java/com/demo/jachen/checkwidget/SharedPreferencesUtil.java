@@ -11,16 +11,41 @@ public class SharedPreferencesUtil {
 
     public static final String RECORD = "record";
 
-    public static void storeRecord(Context context, String records) {
-        getSharedPreferences(context).edit().putString(RECORD, records).apply();
+    public static void storeRecord(String records) {
+        getSharedPreferences().edit().putString(RECORD, records).apply();
     }
 
 
-    public static SharedPreferences getSharedPreferences(Context context) {
-        return context.getSharedPreferences("check", Context.MODE_PRIVATE);
+    public static SharedPreferences getSharedPreferences() {
+        return getSharedPreferences("check");
     }
 
-    public static String readRecord(Context context) {
-        return getSharedPreferences(context).getString(RECORD, "");
+
+    public static SharedPreferences getSharedPreferences(String name) {
+        return getContext().getSharedPreferences(name, Context.MODE_PRIVATE);
+    }
+
+    public static String readRecord() {
+        return getSharedPreferences().getString(RECORD, "");
+    }
+
+    private static Context getContext() {
+        return CheckApplication.getInstance();
+    }
+
+    private static String getBookCheckName(String book) {
+        return String.format("book_%s_%s", book, TimeUtil.getYearMonth());
+    }
+
+    private static SharedPreferences getBookSharedPreferences(String book) {
+        return getSharedPreferences(getBookCheckName(book));
+    }
+
+    public static boolean isReadToday(String book) {
+        return getBookSharedPreferences(book).getBoolean(TimeUtil.getDayOfMonth(), false);
+    }
+
+    public static void markReadToday(String book, boolean read) {
+        getBookSharedPreferences(book).edit().putBoolean(TimeUtil.getDayOfMonth(), read).apply();
     }
 }
