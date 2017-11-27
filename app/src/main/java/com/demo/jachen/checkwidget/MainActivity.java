@@ -12,6 +12,8 @@ import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.demo.jachen.checkwidget.activity.BookActivity;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final String DEFAULT_BOOK = "源码解析";
@@ -43,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
         CheckBox checkBox = findViewById(R.id.checkBox);
         checkBox.setText(DEFAULT_BOOK);
         checkBox.setChecked(SharedPreferencesUtil.isReadToday(DEFAULT_BOOK));
-        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> SharedPreferencesUtil.markReadToday(DEFAULT_BOOK, isChecked));
+        checkBox.setOnCheckedChangeListener((buttonView, isChecked) ->
+                SharedPreferencesUtil.markReadToday(DEFAULT_BOOK, isChecked));
+
+        findViewById(R.id.book_button).setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, BookActivity.class)));
     }
 }
