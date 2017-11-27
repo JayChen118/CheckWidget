@@ -9,36 +9,40 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    private static final String DEFAULT_BOOK = "源码解析";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = MainActivity.this;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    AppWidgetManager manager = context.getSystemService(AppWidgetManager.class);
-                    Log.d(TAG, "onClick: " + manager);
-                    ComponentName componentName = new ComponentName(context, CheckAppWidgetProvider.class);
-                    if (manager != null && manager.isRequestPinAppWidgetSupported()) {
-                        Intent pinedWidgetCallbackIntent = new Intent(context, MainActivity.class);
+        findViewById(R.id.button2).setOnClickListener(v -> {
+            Context context = MainActivity.this;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                AppWidgetManager manager = context.getSystemService(AppWidgetManager.class);
+                Log.d(TAG, "onClick: " + manager);
+                ComponentName componentName = new ComponentName(context, CheckAppWidgetProvider.class);
+                if (manager != null && manager.isRequestPinAppWidgetSupported()) {
+                    Intent pinedWidgetCallbackIntent = new Intent(context, MainActivity.class);
 
-                        PendingIntent intent = PendingIntent.getActivity(context, 0, pinedWidgetCallbackIntent, 0);
-                        manager.requestPinAppWidget(componentName, null, intent);
-                    }
+                    PendingIntent intent = PendingIntent.getActivity(context, 0, pinedWidgetCallbackIntent, 0);
+                    manager.requestPinAppWidget(componentName, null, intent);
                 }
             }
         });
 
         TextView textView = findViewById(R.id.records);
-        textView.setText(SharedPreferencesUtil.readRecord(this));
+        textView.setText(SharedPreferencesUtil.readRecord());
+
+        CheckBox checkBox = findViewById(R.id.checkBox);
+        checkBox.setText(DEFAULT_BOOK);
+        checkBox.setChecked(SharedPreferencesUtil.isReadToday(DEFAULT_BOOK));
+        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> SharedPreferencesUtil.markReadToday(DEFAULT_BOOK, isChecked));
     }
 }
