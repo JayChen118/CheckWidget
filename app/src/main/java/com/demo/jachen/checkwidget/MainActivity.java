@@ -12,17 +12,27 @@ import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.demo.jachen.checkwidget.activity.BookActivity;
+import com.demo.jachen.checkwidget.activity.TaskActivity;
+import com.demo.jachen.checkwidget.bean.Book;
+import com.demo.jachen.checkwidget.utils.SharedPreferencesUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    private static final String DEFAULT_BOOK = "源码解析";
+    public static final String DEFAULT_BOOK = "源码解析";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        if (TextUtils.isEmpty(SharedPreferencesUtil.getBooksString())) {
+        List<Book> books = makeDefaultBooks();
+        SharedPreferencesUtil.storeBook(books);
+//        }
 
         findViewById(R.id.button2).setOnClickListener(v -> {
             Context context = MainActivity.this;
@@ -44,11 +54,19 @@ public class MainActivity extends AppCompatActivity {
 
         CheckBox checkBox = findViewById(R.id.checkBox);
         checkBox.setText(DEFAULT_BOOK);
-        checkBox.setChecked(SharedPreferencesUtil.isReadToday(DEFAULT_BOOK));
+        checkBox.setChecked(SharedPreferencesUtil.isFinishedToday(DEFAULT_BOOK));
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) ->
-                SharedPreferencesUtil.markReadToday(DEFAULT_BOOK, isChecked));
+                SharedPreferencesUtil.markFinishedToday(DEFAULT_BOOK, isChecked));
 
         findViewById(R.id.book_button).setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, BookActivity.class)));
+                startActivity(new Intent(MainActivity.this, TaskActivity.class)));
     }
+
+    private List<Book> makeDefaultBooks() {
+        List<Book> books = new ArrayList<>();
+        Book book = new Book(DEFAULT_BOOK);
+        books.add(book);
+        return books;
+    }
+
 }

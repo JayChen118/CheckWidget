@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.demo.jachen.checkwidget.utils.TimeUtil;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -51,7 +53,9 @@ public class CheckAppWidgetProvider extends AppWidgetProvider {
 
 //        context.startService(new Intent(context, MyIntentService.class));
 
-        NotificationLauncher.fire(context);
+//        if (!SharedPreferencesUtil.isFinishedToday(DEFAULT_BOOK)) {
+//            NotificationLauncher.fire(context, DEFAULT_BOOK);
+//        }
     }
 
     private List<Event> mockEvents() {

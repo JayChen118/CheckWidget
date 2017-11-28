@@ -33,12 +33,8 @@
         <service
             android:name=".MyIntentService"
             android:exported="false" />
-        <service
-            android:name=".MyService"
-            android:enabled="true"
-            android:exported="true" />
 
-        <activity android:name=".activity.BookActivity"></activity>
+        <activity android:name=".activity.TaskActivity"></activity>
     </application>
 
 </manifest>
