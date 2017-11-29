@@ -43,6 +43,8 @@ public class RosterTest {
 
     // Approach 1: Create Methods that Search for Persons that Match One
     // Characteristic
+    // brittle 脆弱，可维护性低，当修改需求时，可能需要重写大量API
+    // 例如需要查找比某个年龄年轻的
 
     public static void printPersonsOlderThan(List<Person> roster, int age) {
         for (Person p : roster) {
@@ -53,6 +55,11 @@ public class RosterTest {
     }
 
     // Approach 2: Create More Generalized Search Methods
+    // 更加通用的方法
+    // 如果需要增加性别的筛选？
+    // 如果有新的属性？
+    // 为每种情况写一个方法的话，还是相当的脆弱
+    // 最好把筛选条件与执行方法分离开
 
     public static void printPersonsWithinAgeRange(
             List<Person> roster, int low, int high) {
@@ -66,6 +73,7 @@ public class RosterTest {
     // Approach 3: Specify Search Criteria Code in a Local Class
     // Approach 4: Specify Search Criteria Code in an Anonymous Class
     // Approach 5: Specify Search Criteria Code with a Lambda Expression
+    // 将筛选条件定义为一个接口，通过接口的实现类传入
 
     public static void printPersons(
             List<Person> roster, CheckPerson tester) {
@@ -77,6 +85,17 @@ public class RosterTest {
     }
 
     // Approach 6: Use Standard Functional Interfaces with Lambda Expressions
+    // java.util.function 包里面有许多标准的方便使用Lambda的接口
+    // https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html
+    //
+
+/*    interface Predicate<T> {
+        boolean test(T t);
+    }*/
+
+/*    interface Predicate<Person> {
+        boolean test(Person t);
+    }*/
 
     public static void printPersonsWithPredicate(
             List<Person> roster, Predicate<Person> tester) {
@@ -88,6 +107,7 @@ public class RosterTest {
     }
 
     // Approach 7: Use Lambda Expressions Throughout Your Application
+    // 使用Consumer接口
 
     public static void processPersons(
             List<Person> roster,
@@ -116,6 +136,7 @@ public class RosterTest {
     }
 
     // Approach 8: Use Generics More Extensively
+    // 极限泛化版本
 
     public static <X, Y> void processElements(
             Iterable<X> source,
@@ -155,6 +176,8 @@ public class RosterTest {
 
         System.out.println("Persons who are eligible for Selective Service:");
 
+        // 通过明确的接口实现类来表达筛选条件
+        // 还是会每次都为新的条件创建新的实现类
         class CheckPersonEligibleForSelectiveService implements CheckPerson {
             public boolean test(Person p) {
                 return p.getGender() == Person.Sex.MALE
@@ -163,8 +186,8 @@ public class RosterTest {
             }
         }
 
-        printPersons(
-                roster, new CheckPersonEligibleForSelectiveService());
+        // 直接new
+        printPersons(roster, new CheckPersonEligibleForSelectiveService());
 
 
         System.out.println();
@@ -174,6 +197,7 @@ public class RosterTest {
         System.out.println("Persons who are eligible for Selective Service " +
                 "(anonymous class):");
 
+        // 通过匿名内部类，无需多余的声明代码，但还是有些冗余
         printPersons(
                 roster,
                 new CheckPerson() {
@@ -192,6 +216,8 @@ public class RosterTest {
         System.out.println("Persons who are eligible for Selective Service " +
                 "(lambda expression):");
 
+        // 使用Lambda表达式，省略接口名与方法名，简明扼要，参数类型也可以省略
+        // 当筛选条件改变时，只需要修改具体的条件代码，无需修改API方法
         printPersons(
                 roster,
                 (Person p) -> p.getGender() == Person.Sex.MALE
@@ -207,6 +233,7 @@ public class RosterTest {
         System.out.println("Persons who are eligible for Selective Service " +
                 "(with Predicate parameter):");
 
+        // 使用Java官方定义好的接口 Predicate
         printPersonsWithPredicate(
                 roster,
                 p -> p.getGender() == Person.Sex.MALE
@@ -216,11 +243,14 @@ public class RosterTest {
 
         System.out.println();
 
-        // Approach 7: Use Lamba Expressions Throughout Your Application
+        // Approach 7: Use Lambda Expressions Throughout Your Application
 
         System.out.println("Persons who are eligible for Selective Service " +
                 "(with Predicate and Consumer parameters):");
 
+        // 同样用Lambda实现Consumer接口
+        // 可以将操作抽离
+        // 题外：方法引用 method reference
         processPersons(
                 roster,
                 p -> p.getGender() == Person.Sex.MALE
@@ -236,6 +266,7 @@ public class RosterTest {
         System.out.println("Persons who are eligible for Selective Service " +
                 "(with Predicate, Function, and Consumer parameters):");
 
+        // 使用Function接口，获取实体的某个字段（也可以进行其它逻辑，加前缀，过滤敏感词）
         processPersonsWithFunction(
                 roster,
                 p -> p.getGender() == Person.Sex.MALE
@@ -252,6 +283,7 @@ public class RosterTest {
         System.out.println("Persons who are eligible for Selective Service " +
                 "(generic version):");
 
+        // 参数全部使用接口、Iterable Predicate Function Consumer
         processElements(
                 roster,
                 p -> p.getGender() == Person.Sex.MALE
@@ -269,6 +301,8 @@ public class RosterTest {
         System.out.println("Persons who are eligible for Selective Service " +
                 "(with bulk data operations):");
 
+        // 使用容量数据操作符 Aggregate Operations
+        // https://docs.oracle.com/javase/tutorial/collections/streams/index.html
         roster
                 .stream()
                 .filter(

@@ -62,7 +62,6 @@ public class MethodReferencesTest {
             p.printPerson();
         }
 
-
         Person[] rosterAsArray =
                 roster.toArray(new Person[roster.size()]);
 
@@ -84,17 +83,16 @@ public class MethodReferencesTest {
         );
 
         // With method reference
+        //
         Arrays.sort(rosterAsArray, Person::compareByAge);
 
         // Reference to an instance method of a particular object
         class ComparisonProvider {
-            public int compareByName(Person a,
-                                     Person b) {
+            public int compareByName(Person a, Person b) {
                 return a.getName().compareTo(b.getName());
             }
 
-            public int compareByAge(Person a,
-                                    Person b) {
+            public int compareByAge(Person a, Person b) {
                 return a.getBirthday().compareTo(b.getBirthday());
             }
         }
