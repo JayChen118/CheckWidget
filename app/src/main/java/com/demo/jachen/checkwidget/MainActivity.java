@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
-import android.widget.CheckBox;
-import android.widget.TextView;
 
-import com.demo.jachen.checkwidget.activity.TaskActivity;
+import com.demo.jachen.checkwidget.adapter.BookAdapter;
 import com.demo.jachen.checkwidget.bean.Book;
+import com.demo.jachen.checkwidget.utils.FileUtil;
 import com.demo.jachen.checkwidget.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
@@ -23,16 +25,25 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     public static final String DEFAULT_BOOK = "源码解析";
 
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        if (TextUtils.isEmpty(SharedPreferencesUtil.getBooksString())) {
         List<Book> books = makeDefaultBooks();
+        if (!TextUtils.isEmpty(SharedPreferencesUtil.getBooksString())) {
+
+            FileUtil.save(SharedPreferencesUtil.getBooksString());
+            books = SharedPreferencesUtil.getBooks();
+        }
+
         SharedPreferencesUtil.storeBook(books);
-//        }
+
+        recyclerView = findViewById(R.id.books);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new BookAdapter(books));
 
         findViewById(R.id.button2).setOnClickListener(v -> {
             Context context = MainActivity.this;
@@ -49,17 +60,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        TextView textView = findViewById(R.id.records);
-        textView.setText(SharedPreferencesUtil.readRecord());
-
-        CheckBox checkBox = findViewById(R.id.checkBox);
-        checkBox.setText(DEFAULT_BOOK);
-        checkBox.setChecked(SharedPreferencesUtil.isFinishedToday(DEFAULT_BOOK));
-        checkBox.setOnCheckedChangeListener((buttonView, isChecked) ->
-                SharedPreferencesUtil.markFinishedToday(DEFAULT_BOOK, isChecked));
-
-        findViewById(R.id.book_button).setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, TaskActivity.class)));
     }
 
     private List<Book> makeDefaultBooks() {

@@ -14,6 +14,10 @@ public class Book implements Target {
 
     private int intervalMinute = 15;
 
+    private int totalPage;
+
+    private int currentPage;
+
     public Book(String name) {
         this.name = name;
     }
@@ -50,6 +54,21 @@ public class Book implements Target {
         this.intervalMinute = intervalMinute;
     }
 
+    public int getTotalPage() {
+        return totalPage;
+    }
+
+    public void setTotalPage(int totalPage) {
+        this.totalPage = totalPage;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
 
     @Override
     public String toString() {
@@ -58,6 +77,8 @@ public class Book implements Target {
                 ", targetTime='" + targetTime + '\'' +
                 ", alertMinute=" + alertMinute +
                 ", intervalMinute=" + intervalMinute +
+                ", totalPage=" + totalPage +
+                ", currentPage=" + currentPage +
                 '}';
     }
 }
