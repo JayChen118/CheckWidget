@@ -11,6 +11,17 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        debug {
+            storeFile file('jay-debug.jks')
+            storePassword 'jaychen'
+            keyAlias 'jaychen'
+            keyPassword 'jaychen'
+        }
+
+    }
+
     buildTypes {
         release {
             minifyEnabled false
