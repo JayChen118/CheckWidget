@@ -15,29 +15,29 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.demo.jachen.checkwidget.MainActivity.DEFAULT_BOOK;
-
 public class TaskActivity extends AppCompatActivity {
+
+    public static final String KEY_BOOK = "BOOK";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
+        Book book = getIntent().getParcelableExtra(KEY_BOOK);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
 
         GridLayoutManager layoutManager = new GridLayoutManager(TaskActivity.this, 7);
         recyclerView.setLayoutManager(layoutManager);
 
-        TaskAdapter adapter = new TaskAdapter(getDefaultBookTasks());
+        TaskAdapter adapter = new TaskAdapter(getDefaultBookTasks(book));
         recyclerView.setAdapter(adapter);
 
     }
 
-    private List<Task> getDefaultBookTasks() {
+    private List<Task> getDefaultBookTasks(Book book) {
         List<Task> list = new ArrayList<>();
-        Book book = new Book(DEFAULT_BOOK);
         Calendar calendar = Calendar.getInstance();
         int month = calendar.get(Calendar.MONTH);
         int maxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -46,7 +46,7 @@ public class TaskActivity extends AppCompatActivity {
             task.setMonth(month);
             task.setDayOfMonth(i);
             task.setTarget(book);
-            task.setFinished(SharedPreferencesUtil.isFinished(DEFAULT_BOOK, i));
+            task.setFinished(SharedPreferencesUtil.isFinished(book.getName(), i));
             list.add(task);
         }
         return list;

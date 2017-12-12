@@ -24,6 +24,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     public static final String DEFAULT_BOOK = "源码解析";
+    public static final String SECOND_BOOK = "A Study In Scarlet";
 
     private RecyclerView recyclerView;
 
@@ -37,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
             FileUtil.save(SharedPreferencesUtil.getBooksString());
             books = SharedPreferencesUtil.getBooks();
+            Log.d(TAG, "onCreate: size: " + books.size());
+            addNotContain(books, makeDefaultBooks());
+            Log.d(TAG, "onCreate: size: " + books.size());
+
         }
 
         SharedPreferencesUtil.storeBook(books);
@@ -59,12 +64,29 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
+
+    private void addNotContain(List<Book> current, List<Book> adding) {
+        for (Book addBook : adding) {
+            boolean isContain = false;
+            for (Book book : current) {
+                if (TextUtils.equals(addBook.getName(), book.getName())) {
+                    isContain = true;
+                    break;
+                }
+            }
+            if (!isContain) {
+                current.add(addBook);
+            }
+        }
+    }
+
 
     private List<Book> makeDefaultBooks() {
         List<Book> books = new ArrayList<>();
         Book book = new Book(DEFAULT_BOOK);
+        books.add(book);
+        book = new Book(SECOND_BOOK);
         books.add(book);
         return books;
     }

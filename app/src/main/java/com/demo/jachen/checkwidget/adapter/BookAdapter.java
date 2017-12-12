@@ -15,6 +15,8 @@ import com.demo.jachen.checkwidget.utils.SharedPreferencesUtil;
 
 import java.util.List;
 
+import static com.demo.jachen.checkwidget.activity.TaskActivity.KEY_BOOK;
+
 /**
  * Created by jachen on 12/7/2017.
  */
@@ -42,8 +44,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         holder.bookName.setOnCheckedChangeListener((buttonView, isChecked) ->
                 SharedPreferencesUtil.markFinishedToday(book.getName(), isChecked));
 
-        holder.month.setOnClickListener(v ->
-                v.getContext().startActivity(new Intent(v.getContext(), TaskActivity.class)));
+        holder.month.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), TaskActivity.class);
+            intent.putExtra(KEY_BOOK, book);
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override
