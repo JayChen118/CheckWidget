@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     public static final String DEFAULT_BOOK = "源码解析";
     public static final String SECOND_BOOK = "A Study In Scarlet";
+    public static final String THIRD_BOOK = "你不努力，谁也给不了你想要的生活";
 
     private RecyclerView recyclerView;
 
@@ -87,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
         Book book = new Book(DEFAULT_BOOK);
         books.add(book);
         book = new Book(SECOND_BOOK);
+        books.add(book);
+        book = new Book(THIRD_BOOK);
         books.add(book);
         return books;
     }
