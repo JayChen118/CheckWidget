@@ -1,6 +1,7 @@
 package com.demo.jachen.checkwidget.utils;
 
 import com.demo.jachen.checkwidget.bean.Book;
+import com.demo.jachen.checkwidget.bean.Diary;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -27,7 +28,20 @@ public class GsonUtil {
         return new ArrayList<>();
     }
 
-    public static String format(List<Book> books) {
-        return new Gson().toJson(books);
+
+    public static List<Diary> parseDiaries(String json) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Diary>>() {
+        }.getType();
+        try {
+            return gson.fromJson(json, type);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    public static <T> String format(List<T> list) {
+        return new Gson().toJson(list);
     }
 }

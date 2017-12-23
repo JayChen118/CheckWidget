@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.demo.jachen.checkwidget.activity.DiaryActivity;
 import com.demo.jachen.checkwidget.adapter.BookAdapter;
 import com.demo.jachen.checkwidget.bean.Book;
 import com.demo.jachen.checkwidget.utils.FileUtil;
@@ -63,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
                     PendingIntent intent = PendingIntent.getActivity(context, 0, pinedWidgetCallbackIntent, 0);
                     manager.requestPinAppWidget(componentName, null, intent);
                 }
+            } else {
+                Intent intent = new Intent(this, DiaryActivity.class);
+                startActivity(intent);
             }
         });
     }

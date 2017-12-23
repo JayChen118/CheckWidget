@@ -36,7 +36,8 @@
             android:name=".MyIntentService"
             android:exported="false" />
 
-        <activity android:name=".activity.TaskActivity"></activity>
+        <activity android:name=".activity.TaskActivity" />
+        <activity android:name=".activity.DiaryActivity"></activity>
     </application>
 
 </manifest>

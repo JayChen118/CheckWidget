@@ -4,6 +4,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,9 +16,13 @@ import java.io.IOException;
 public class FileUtil {
 
     public static void save(String json) {
+        save(generateFileName("books"), json);
+    }
+
+    public static void save(String name, String json) {
         if (makeDirectory()) {
             File directory = getExternalStorageDirectory();
-            File file = new File(directory, generateFileName("books"));
+            File file = new File(directory, name);
             try {
                 FileOutputStream outputStream = new FileOutputStream(file);
                 outputStream.write(json.getBytes());
@@ -28,6 +33,28 @@ public class FileUtil {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static String read(String name) {
+        File directory = getExternalStorageDirectory();
+        File file = new File(directory, name);
+        try {
+            FileInputStream inputStream = new FileInputStream(file);
+            StringBuilder buffer = new StringBuilder();
+            byte[] bytes = new byte[1024];
+            int length;
+            while ((length = inputStream.read(bytes)) != -1) {
+                buffer.append(new String(bytes, 0, length));
+            }
+            inputStream.close();
+            return buffer.toString();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public static String generateFileName(String prefix) {
