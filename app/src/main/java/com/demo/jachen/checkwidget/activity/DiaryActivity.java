@@ -31,6 +31,8 @@ public class DiaryActivity extends AppCompatActivity {
             Diary diary = new Diary(System.currentTimeMillis(), editText.getText().toString());
             diaries.add(diary);
             DiaryRepository.store(diaries);
+            textView.setText(diaries.toString());
+            editText.setText(null);
         });
 
 
