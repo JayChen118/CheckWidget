@@ -16,6 +16,7 @@ import java.util.Locale;
 public class TimeUtil {
 
     public static final DateFormat DATE_TIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+    public static final DateFormat DATE = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
     public static final DateFormat DAY_TIME = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
     public static final DateFormat YEAR_MONTH = new SimpleDateFormat("yyyy-MM", Locale.CHINA);
     public static final DateFormat HOUR_MINUTE = new SimpleDateFormat("HH:mm", Locale.CHINA);

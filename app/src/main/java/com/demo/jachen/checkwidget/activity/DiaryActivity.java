@@ -2,10 +2,12 @@ package com.demo.jachen.checkwidget.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.demo.jachen.checkwidget.R;
+import com.demo.jachen.checkwidget.adapter.DiaryAdapter;
 import com.demo.jachen.checkwidget.bean.Diary;
 import com.demo.jachen.checkwidget.repository.DiaryRepository;
 
@@ -13,7 +15,9 @@ import java.util.List;
 
 public class DiaryActivity extends AppCompatActivity {
 
-    TextView textView;
+    RecyclerView recyclerView;
+
+    DiaryAdapter diaryAdapter;
 
     EditText editText;
 
@@ -31,17 +35,20 @@ public class DiaryActivity extends AppCompatActivity {
             Diary diary = new Diary(System.currentTimeMillis(), editText.getText().toString());
             diaries.add(diary);
             DiaryRepository.store(diaries);
-            textView.setText(diaries.toString());
             editText.setText(null);
         });
 
-
-        textView = findViewById(R.id.diaries_text_view);
+        recyclerView = findViewById(R.id.diaries_recycler_view);
 
         editText = findViewById(R.id.editText);
 
         diaries = DiaryRepository.getAll();
-        textView.setText(diaries.toString());
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        diaryAdapter = new DiaryAdapter(diaries);
+
+        recyclerView.setAdapter(diaryAdapter);
 
     }
 }

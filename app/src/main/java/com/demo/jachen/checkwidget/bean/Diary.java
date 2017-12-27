@@ -23,6 +23,10 @@ public class Diary {
         return time;
     }
 
+    public String getDate() {
+        return TimeUtil.DATE.format(new Date(getTime()));
+    }
+
     public void setTime(long time) {
         this.time = time;
     }
