@@ -1,5 +1,6 @@
 package com.demo.jachen.checkwidget.bean;
 
+import com.demo.jachen.checkwidget.utils.Checker;
 import com.demo.jachen.checkwidget.utils.TimeUtil;
 
 import java.util.Date;
@@ -12,11 +13,14 @@ public class Diary {
 
     public long time;
 
+    public String date;
+
     public String content;
 
     public Diary(long time, String content) {
         this.time = time;
         this.content = content;
+        this.date = TimeUtil.DATE.format(new Date(time));
     }
 
     public long getTime() {
@@ -24,7 +28,14 @@ public class Diary {
     }
 
     public String getDate() {
-        return TimeUtil.DATE.format(new Date(getTime()));
+        if (Checker.isEmpty(date)) {
+            date = TimeUtil.DATE.format(new Date(time));
+        }
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public void setTime(long time) {
@@ -42,7 +53,8 @@ public class Diary {
     @Override
     public String toString() {
         return "Diary{" +
-                "time=" + TimeUtil.DATE_TIME.format(new Date(time)) +
+                "time=" + time +
+                ", date='" + date + '\'' +
                 ", content='" + content + '\'' +
                 '}';
     }

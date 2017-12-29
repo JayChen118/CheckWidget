@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.demo.jachen.checkwidget.R;
 import com.demo.jachen.checkwidget.bean.Diary;
@@ -40,6 +41,10 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         Diary diary = diaries.get(position);
         holder.dateView.setText(diary.getDate());
+        holder.dateView.setOnClickListener(view -> {
+            TextView textView = (TextView) view;
+            Toast.makeText(view.getContext(), textView.getText(), Toast.LENGTH_SHORT).show();
+        });
         holder.contentView.setText(diary.getContent());
     }
 
@@ -60,4 +65,5 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ViewHolder> 
             contentView = itemView.findViewById(R.id.contentTextView);
         }
     }
+
 }

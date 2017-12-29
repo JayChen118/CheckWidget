@@ -37,7 +37,9 @@
             android:exported="false" />
 
         <activity android:name=".activity.TaskActivity" />
-        <activity android:name=".activity.DiaryActivity"></activity>
+        <activity
+            android:name=".activity.DiaryActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
     </application>
 
 </manifest>
