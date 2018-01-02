@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 
 import com.demo.jachen.checkwidget.R;
 import com.demo.jachen.checkwidget.activity.TaskActivity;
 import com.demo.jachen.checkwidget.bean.Book;
+import com.demo.jachen.checkwidget.utils.Checker;
 import com.demo.jachen.checkwidget.utils.SharedPreferencesUtil;
 
 import java.util.List;
@@ -40,7 +42,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Book book = books.get(position);
-        holder.bookName.setText(book.getName());
+        holder.bookName.setText(String.format("(%d)%s", book.getCurrentPage(), book.getName()));
 
         holder.bookName.setChecked(SharedPreferencesUtil.isFinishedToday(book.getName()));
         holder.bookName.setOnCheckedChangeListener((buttonView, isChecked) ->
@@ -57,10 +59,27 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     private boolean showPageDialog(Context context, Book book) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(R.layout.dialog_edit_page);
+
         builder.setPositiveButton("确定", (dialogInterface, i) -> {
+            if (dialogInterface instanceof AlertDialog) {
+                EditText editText = ((AlertDialog) dialogInterface).findViewById(R.id.page_edit_text);
+                if (editText != null && !Checker.isEmpty(editText.getText())) {
+
+                    try {
+                        int page = Integer.parseInt(editText.getText().toString());
+                        book.setCurrentPage(page);
+                        SharedPreferencesUtil.storeBook(books);
+                        notifyDataSetChanged();
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
 
         });
         builder.create().show();
+
+
         return true;
     }
 
