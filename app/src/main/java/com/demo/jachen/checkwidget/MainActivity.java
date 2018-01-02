@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new BookAdapter(books));
 
+
         findViewById(R.id.button2).setOnClickListener(v -> {
 
             Intent intent = new Intent(this, DiaryActivity.class);

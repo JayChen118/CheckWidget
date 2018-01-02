@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
@@ -9,13 +10,22 @@
         android:id="@+id/book_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginLeft="8dp"
-        android:text="源码解析" />
+        tools:text="源码解析源码解析源码解析源码解析源码解析源码解析源码解析" />
 
     <Button
-        android:id="@+id/book_button"
+        android:id="@+id/view_monthly_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:text="View Monthly" />
+        android:text="Mon" />
+
+
+    <Button
+        android:id="@+id/edit_page_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Page" />
+
+
 </LinearLayout>
