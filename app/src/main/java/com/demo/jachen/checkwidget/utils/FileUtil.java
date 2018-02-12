@@ -4,10 +4,10 @@ import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Scanner;
 
 /**
  * Created by jachen on 12/7/2017.
@@ -39,19 +39,10 @@ public class FileUtil {
         File directory = getExternalStorageDirectory();
         File file = new File(directory, name);
         try {
-            FileInputStream inputStream = new FileInputStream(file);
-            StringBuilder buffer = new StringBuilder();
-            byte[] bytes = new byte[1024];
-            int length;
-            while ((length = inputStream.read(bytes)) != -1) {
-                buffer.append(new String(bytes, 0, length));
-            }
-            inputStream.close();
-            return buffer.toString();
+
+            return new Scanner(file).useDelimiter("\\Z").next();
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
         return "";
