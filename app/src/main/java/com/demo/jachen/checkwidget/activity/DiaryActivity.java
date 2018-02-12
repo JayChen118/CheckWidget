@@ -2,13 +2,13 @@ package com.demo.jachen.checkwidget.activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.demo.jachen.checkwidget.BaseActivity;
 import com.demo.jachen.checkwidget.R;
 import com.demo.jachen.checkwidget.adapter.DiaryAdapter;
 import com.demo.jachen.checkwidget.bean.Diary;
@@ -16,7 +16,7 @@ import com.demo.jachen.checkwidget.repository.DiaryRepository;
 
 import java.util.List;
 
-public class DiaryActivity extends AppCompatActivity {
+public class DiaryActivity extends BaseActivity {
 
     RecyclerView recyclerView;
 
